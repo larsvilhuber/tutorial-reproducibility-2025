@@ -8,6 +8,5 @@ _html
 quarto
 index_files
 index.html
-renv
 .Rprofile
 data

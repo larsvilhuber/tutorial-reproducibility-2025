@@ -1,8 +1,9 @@
 ---
-title: "Workshop reproducibility - Berlin"
+title: "Tutorial reproducibility"
 author: 
   - "Lars Vilhuber"
-date: 15-16 October 2024
+  - "Marie Connolly"
+date: 3 January 2025
 ---
 
 ```{r config,include=FALSE}
@@ -11,8 +12,25 @@ library(here)
 library(knitr)
 library(dplyr)
 library(ggplot2)
-secret <- Sys.getenv("DROPBOX_KEY")
-gurl <- paste0("https://www.dropbox.com/scl/fi/",secret,"/berlin-google-responses.csv?rlkey=4rbx7kt8p5r8rpe69pldvpudt&dl=1")
+library(qualtRics)
+
+# qualtRics secrets are read from the environment:
+# - QUALTRICS_API_KEY
+# - QUALTRICS_BASE_URL
+
+# Qualtrics data for Day 1:
+# you can find this with all_surveys() %>% arrange(creationDate) %>% head()
+
+QUALTRICS_DAY1 <- "SV_bBqbJ9cSSJdOBw2"
+
+# Time when this was posted (discard anything before that)
+
+QUALTRICS_DAY1_STIME <- "2025-01-03 09:00:00"
+
+# Public Qualtrics URL for day 2
+
+QUALTRICS_DAY2 <- "https://cornell.ca1.qualtrics.com/jfe/form/SV_3J9Z2Z2Z2Z2Z2Z2"
+
 if (!dir.exists(here::here("data"))) {
   dir.create(here::here("data"))
 }
@@ -22,54 +40,39 @@ if (!dir.exists(here::here("data"))) {
 
 ## Follow along
 
-[lars.vilhuber.com/p/berlin2024/](https://lars.vilhuber.com/p/berlin2024/)
+[lars.vilhuber.com/p/assa2025/](https://lars.vilhuber.com/p/assa2025/)
 
 ## Survey for Day 2
 
-<https://forms.gle/zbLC45gEtbKGtM6q6>
+<`r QUALTRICS_DAY2`>
 
 ## Day 1
 
-### Session 1
 
-[Setting yourself up for reproducibility](https://larsvilhuber.github.io/day1-tutorial/)
+- [Setting yourself up for reproducibility](https://larsvilhuber.github.io/day1-tutorial/)
 
-### Session 2
-
-[Checking reproducibility yourself and other tools](https://larsvilhuber.github.io/self-checking-reproducibility/presentation/)
 
 ## Day 2
 
-### Session 3
+One of the following (or a linear combination):
 
-[Reproducibility when some data are confidential](https://labordynamicsinstitute.github.io/reproducibility-confidential/) 
+- [Reproducibility when some data are confidential](https://labordynamicsinstitute.github.io/reproducibility-confidential/) 
+- [Advanced self-checking of reproducibility](https://larsvilhuber.github.io/self-checking-reproducibility/presentation/)
 
-### Session 4
 
-One of the following:
+## Data
 
-- JIT Preservation of research output
-
-  - <https://labordynamicsinstitute.github.io/replication-tutorial-2019/#/18>
-  - <https://labordynamicsinstitute.github.io/tutorial-data-sharing-archiving-2021/#/2> (possibly challenging)
-
-- Short presentation on concerns about ethics in data dissemination
-- **In-depth tutorial on the use of Docker for economics research**
-  - <https://codeocean.com>
-  - <https://wholetale.org>
-  - <https://github.com/codespaces>
-
-### Results
-
-```{r downloaddata}
+```{r downloaddata,include=FALSE}
 # download data to local location
-download.file(gurl,destfile=here::here("data","berlin-google-responses.csv"))
-# read file in
-berlin_google_responses <- read_csv(here::here("data","berlin-google-responses.csv"))
+
+data <- fetch_survey(surveyID = QUALTRICS_DAY1, verbose = TRUE) |> 
+        filter(StartDate > QUALTRICS_DAY1_STIME) 
+
 
 ```
+
 ```{r create_table, results='asis'}
-berlin_google_responses |>
+data |>
   select(Topic) |>
   group_by(Topic) |>
   summarise(Frequency=n()) |>
@@ -80,12 +83,6 @@ data |> kable()
 
 ```
 
-```{r histogram,results='asis'}
-
-ggplot(data,  aes(y=Frequency, x=Topic)) +
-  geom_bar(position='dodge', stat='identity')
-
-```
 
 ```{r, child=c(here::here('99-links.md'))}
 ```
