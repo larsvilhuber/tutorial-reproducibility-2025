@@ -17,6 +17,10 @@ library(qualtRics)
 # qualtRics secrets are read from the environment:
 # - QUALTRICS_API_KEY
 # - QUALTRICS_BASE_URL
+# Let's check that they are there:
+
+Sys.getenv("QUALTRICS_BASE_URL")
+
 
 # Qualtrics data for Day 1:
 # you can find this with all_surveys() %>% arrange(creationDate) %>% head()
@@ -25,7 +29,7 @@ QUALTRICS_DAY1 <- "SV_bBqbJ9cSSJdOBw2"
 
 # Time when this was posted (discard anything before that)
 
-QUALTRICS_DAY1_STIME <- "2025-01-03 09:00:00"
+QUALTRICS_DAY1_STIME <- "2025-01-02 09:00:00"
 
 # Public Qualtrics URL for day 2
 
@@ -42,14 +46,18 @@ if (!dir.exists(here::here("data"))) {
 
 [lars.vilhuber.com/p/assa2025/](https://lars.vilhuber.com/p/assa2025/)
 
-## Survey for Day 2
+## Survey on Background and Skills
 
-<`r QUALTRICS_DAY2`>
+
 
 ## Day 1
 
 
 - [Setting yourself up for reproducibility](https://larsvilhuber.github.io/day1-tutorial/)
+
+## Survey for Day 2
+
+<`r QUALTRICS_DAY2`>
 
 
 ## Day 2
@@ -65,21 +73,28 @@ One of the following (or a linear combination):
 ```{r downloaddata,include=FALSE}
 # download data to local location
 
-data <- fetch_survey(surveyID = QUALTRICS_DAY1, verbose = TRUE) |> 
-        filter(StartDate > QUALTRICS_DAY1_STIME) 
+data.raw <- fetch_survey(surveyID = QUALTRICS_DAY1, verbose = TRUE) 
+data <- data.raw |>
+        filter(Status != "Survey Preview") |>
+        filter(Consent == "I agree that my data will be used in the manner described.") |>
+        filter(StartDate > QUALTRICS_DAY1_STIME) |>
+  # renaming variables
+  select(StartDate,EndDate,Status,Finished,RecordedDate,ResponseId,Consent,Degree,JEL_primary,
+         starts_with("JEL_secondary"),starts_with("Desktop_"),starts_with("Advanced_usage_"),
+         starts_with("Programming_"),starts_with("Versioning_"))
 
 
 ```
 
 ```{r create_table, results='asis'}
 data |>
-  select(Topic) |>
-  group_by(Topic) |>
+  select(Degree) |>
+  group_by(Degree) |>
   summarise(Frequency=n()) |>
   ungroup() |>
-  mutate(Percent = round(Frequency/nrow(berlin_google_responses)*100,2)) -> data
+  mutate(Percent = round(Frequency/nrow(data)*100,2)) -> data.table
 
-data |> kable()
+data.table |> kable()
 
 ```
 
