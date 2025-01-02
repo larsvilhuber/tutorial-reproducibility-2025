@@ -25,7 +25,7 @@ message(Sys.getenv("QUALTRICS_BASE_URL"))
 # Qualtrics data for Day 1:
 # you can find this with all_surveys() %>% arrange(creationDate) %>% head()
 
-QUALTRICS_FULL_URL <- "https://cornell.yul1.qualtrics.com/jfe/form/"
+QUALTRICS_FULL_URL <- "https://cornell.yul1.qualtrics.com/jfe/form"
 QUALTRICS_DAY1 <- "SV_bBqbJ9cSSJdOBw2"
 
 # Time when this was posted (discard anything before that)
