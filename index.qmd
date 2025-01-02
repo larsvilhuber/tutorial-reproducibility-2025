@@ -30,7 +30,7 @@ QUALTRICS_DAY1 <- "SV_bBqbJ9cSSJdOBw2"
 
 # Time when this was posted (discard anything before that)
 
-QUALTRICS_DAY1_STIME <- "2025-01-03 09:00:00"
+QUALTRICS_DAY1_STIME <- "2025-01-03 00:00:00"
 
 # Public Qualtrics URL for day 2
 
