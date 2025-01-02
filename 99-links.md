@@ -23,5 +23,5 @@ Using containers:
 ### Extra info
 
 
-- This document's source: <https://github.com/larsvilhuber/workshop-reproducibility-berlin>
+- This document's source: <https://github.com/larsvilhuber/tutorial-reproducibility-2025>
 - Licensed under [![CC BY-NC 4.0](/images/cc-by-nc-80x15.png)](https://creativecommons.org/licenses/by-nc/4.0/)

@@ -30,11 +30,11 @@ QUALTRICS_DAY1 <- "SV_bBqbJ9cSSJdOBw2"
 
 # Time when this was posted (discard anything before that)
 
-QUALTRICS_DAY1_STIME <- "2025-01-02 09:00:00"
+QUALTRICS_DAY1_STIME <- "2025-01-03 09:00:00"
 
 # Public Qualtrics URL for day 2
 
-QUALTRICS_DAY2 <- "SV_3J9Z2Z2Z2Z2Z2Z2"
+QUALTRICS_DAY2 <- "SHORTLY"
 
 if (!dir.exists(here::here("data"))) {
   dir.create(here::here("data"))
@@ -47,11 +47,13 @@ if (!dir.exists(here::here("data"))) {
 
 [lars.vilhuber.com/p/assa2025/](https://lars.vilhuber.com/p/assa2025/)
 
-## Survey on Background and Skills
+## Survey 1
 
-Please fill this out, to provide us with information on who you are. It will help us improve the presentation, and make it more relevant for you.
+Please fill out this survey on background and skills, to provide us with information on who you are. It will help us improve the presentation, and make it more relevant for you.
 
 <`r file.path(QUALTRICS_FULL_URL,QUALTRICS_DAY1)`>
+
+### Results
 
 ```{r downloaddata,include=FALSE}
 # download data to local location
@@ -70,6 +72,8 @@ data <- data.raw |>
 ```
 
 ```{r create_table, results='asis', include=TRUE,echo=FALSE,message=FALSE}
+
+if ( nrow(data) >0 ) {
 data |>
   select(Degree) |>
   group_by(Degree) |>
@@ -78,6 +82,9 @@ data |>
   mutate(Percent = round(Frequency/nrow(data)*100,2)) -> data.table
 
 data.table |> kable()
+} else {
+  cat("No data yet. Check back later.")
+}
 
 ```
 
@@ -88,7 +95,9 @@ One of the following (or a linear combination):
 - [Setting yourself up for reproducibility](https://larsvilhuber.github.io/day1-tutorial/)
 - [How to correctly document a replication package](https://larsvilhuber.github.io/readme-presentation/)
 
-## Survey for Day 2
+## Survey 2
+
+To identify what we should be speaking about on Day 2, please fill out this other survey:
 
 <`r file.path(QUALTRICS_FULL_URL,QUALTRICS_DAY2)`>
 
