@@ -1,0 +1,94 @@
+---
+title: "Workshop reproducibility - Berlin"
+author: 
+  - "Lars Vilhuber"
+date: 15-16 October 2024
+---
+
+```{r config,include=FALSE}
+library(readr)
+library(here)
+library(knitr)
+library(dplyr)
+library(ggplot2)
+secret <- Sys.getenv("DROPBOX_KEY")
+gurl <- paste0("https://www.dropbox.com/scl/fi/",secret,"/berlin-google-responses.csv?rlkey=4rbx7kt8p5r8rpe69pldvpudt&dl=1")
+if (!dir.exists(here::here("data"))) {
+  dir.create(here::here("data"))
+}
+```
+
+::: {.panel-tabset}
+
+## Follow along
+
+[lars.vilhuber.com/p/berlin2024/](https://lars.vilhuber.com/p/berlin2024/)
+
+## Survey for Day 2
+
+<https://forms.gle/zbLC45gEtbKGtM6q6>
+
+## Day 1
+
+### Session 1
+
+[Setting yourself up for reproducibility](https://larsvilhuber.github.io/day1-tutorial/)
+
+### Session 2
+
+[Checking reproducibility yourself and other tools](https://larsvilhuber.github.io/self-checking-reproducibility/presentation/)
+
+## Day 2
+
+### Session 3
+
+[Reproducibility when some data are confidential](https://labordynamicsinstitute.github.io/reproducibility-confidential/) 
+
+### Session 4
+
+One of the following:
+
+- JIT Preservation of research output
+
+  - <https://labordynamicsinstitute.github.io/replication-tutorial-2019/#/18>
+  - <https://labordynamicsinstitute.github.io/tutorial-data-sharing-archiving-2021/#/2> (possibly challenging)
+
+- Short presentation on concerns about ethics in data dissemination
+- **In-depth tutorial on the use of Docker for economics research**
+  - <https://codeocean.com>
+  - <https://wholetale.org>
+  - <https://github.com/codespaces>
+
+### Results
+
+```{r downloaddata}
+# download data to local location
+download.file(gurl,destfile=here::here("data","berlin-google-responses.csv"))
+# read file in
+berlin_google_responses <- read_csv(here::here("data","berlin-google-responses.csv"))
+
+```
+```{r create_table, results='asis'}
+berlin_google_responses |>
+  select(Topic) |>
+  group_by(Topic) |>
+  summarise(Frequency=n()) |>
+  ungroup() |>
+  mutate(Percent = round(Frequency/nrow(berlin_google_responses)*100,2)) -> data
+
+data |> kable()
+
+```
+
+```{r histogram,results='asis'}
+
+ggplot(data,  aes(y=Frequency, x=Topic)) +
+  geom_bar(position='dodge', stat='identity')
+
+```
+
+```{r, child=c(here::here('99-links.md'))}
+```
+
+:::
+

@@ -1,0 +1,13 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+/.quarto/
+_html
+quarto
+index_files
+index.html
+renv
+.Rprofile
+data
