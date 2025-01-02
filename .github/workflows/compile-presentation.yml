@@ -35,7 +35,11 @@ jobs:
       uses: r-lib/actions/setup-renv@v2
       with:
         cache-version: 1
-        
+    - name: Set Environment Variables
+      run: |
+        echo "QUALTRICS_BASE_URL=${{ secrets.QUALTRICS_BASE_URL }}" >> $GITHUB_ENV
+        echo "QUALTRICS_API_KEY=${{ secrets.QUALTRICS_API_KEY }}" >> $GITHUB_ENV
+          
     - name: Render Quarto Project
       env:
         QUARTO_PRINT_STACK: true
