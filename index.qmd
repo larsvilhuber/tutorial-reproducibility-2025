@@ -19,7 +19,7 @@ library(qualtRics)
 # - QUALTRICS_BASE_URL
 # Let's check that they are there:
 
-Sys.getenv("QUALTRICS_BASE_URL")
+message(Sys.getenv("QUALTRICS_BASE_URL"))
 
 
 # Qualtrics data for Day 1:

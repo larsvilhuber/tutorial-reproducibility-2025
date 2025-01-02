@@ -1,4 +1,4 @@
-name: deploy-presentation
+name: deploy-langing-page
 
 # Only run this when the master branch changes
 on:
@@ -9,7 +9,7 @@ on:
 # This job installs dependencies, builds the book, and pushes it to `gh-pages`
 jobs:
 
-  compile-presentation:
+  compile-quarto:
     runs-on: ubuntu-22.04
     steps:
 
@@ -48,7 +48,7 @@ jobs:
         path: _html
     
   publish:
-    needs: compile-presentation
+    needs: compile-quarto
     
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
