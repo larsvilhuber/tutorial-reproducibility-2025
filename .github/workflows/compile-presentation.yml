@@ -40,6 +40,7 @@ jobs:
     #   with:
     #     path: ./presentation
       run: |
+        echo $QUALTRICS_BASE_URL
         quarto render  index.qmd --output-dir _html
 
     - name: Upload Artifact
