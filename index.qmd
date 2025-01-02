@@ -25,6 +25,7 @@ message(Sys.getenv("QUALTRICS_BASE_URL"))
 # Qualtrics data for Day 1:
 # you can find this with all_surveys() %>% arrange(creationDate) %>% head()
 
+QUALTRICS_FULL_URL <- "https://cornell.yul1.qualtrics.com/jfe/form/"
 QUALTRICS_DAY1 <- "SV_bBqbJ9cSSJdOBw2"
 
 # Time when this was posted (discard anything before that)
@@ -33,7 +34,7 @@ QUALTRICS_DAY1_STIME <- "2025-01-02 09:00:00"
 
 # Public Qualtrics URL for day 2
 
-QUALTRICS_DAY2 <- "https://cornell.ca1.qualtrics.com/jfe/form/SV_3J9Z2Z2Z2Z2Z2Z2"
+QUALTRICS_DAY2 <- "SV_3J9Z2Z2Z2Z2Z2Z2"
 
 if (!dir.exists(here::here("data"))) {
   dir.create(here::here("data"))
@@ -48,27 +49,9 @@ if (!dir.exists(here::here("data"))) {
 
 ## Survey on Background and Skills
 
+Please fill this out, to provide us with information on who you are. It will help us improve the presentation, and make it more relevant for you.
 
-
-## Day 1
-
-
-- [Setting yourself up for reproducibility](https://larsvilhuber.github.io/day1-tutorial/)
-
-## Survey for Day 2
-
-<`r QUALTRICS_DAY2`>
-
-
-## Day 2
-
-One of the following (or a linear combination):
-
-- [Reproducibility when some data are confidential](https://labordynamicsinstitute.github.io/reproducibility-confidential/) 
-- [Advanced self-checking of reproducibility](https://larsvilhuber.github.io/self-checking-reproducibility/presentation/)
-
-
-## Data
+<`r file.path(QUALTRICS_FULL_URL,QUALTRICS_DAY1)`>
 
 ```{r downloaddata,include=FALSE}
 # download data to local location
@@ -86,7 +69,7 @@ data <- data.raw |>
 
 ```
 
-```{r create_table, results='asis'}
+```{r create_table, results='asis', include=TRUE,echo=FALSE,message=FALSE}
 data |>
   select(Degree) |>
   group_by(Degree) |>
@@ -97,6 +80,27 @@ data |>
 data.table |> kable()
 
 ```
+
+## Day 1
+
+One of the following (or a linear combination):
+
+- [Setting yourself up for reproducibility](https://larsvilhuber.github.io/day1-tutorial/)
+- [How to correctly document a replication package](https://larsvilhuber.github.io/readme-presentation/)
+
+## Survey for Day 2
+
+<`r file.path(QUALTRICS_FULL_URL,QUALTRICS_DAY2)`>
+
+
+## Day 2
+
+One of the following (or a linear combination):
+
+- [Reproducibility when some data are confidential](https://labordynamicsinstitute.github.io/reproducibility-confidential/) 
+- [Advanced self-checking of reproducibility](https://larsvilhuber.github.io/self-checking-reproducibility/presentation/)
+
+
 
 
 ```{r, child=c(here::here('99-links.md'))}

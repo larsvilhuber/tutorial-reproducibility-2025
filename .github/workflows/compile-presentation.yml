@@ -5,6 +5,9 @@ on:
   push:
     branches:
     - main
+  cron:
+    # hourly run
+    - '3 * * * *'
 
 # This job installs dependencies, builds the book, and pushes it to `gh-pages`
 jobs:
@@ -26,7 +29,7 @@ jobs:
     - name: Install R
       uses: r-lib/actions/setup-r@v2
       with:
-        r-version: '4.4.0'
+        r-version: '4.4.2'
 
     - name: Install R Dependencies 
       uses: r-lib/actions/setup-renv@v2
@@ -40,7 +43,8 @@ jobs:
     #   with:
     #     path: ./presentation
       run: |
-        echo $QUALTRICS_BASE_URL
+        echo "xxxxxxxxxx${QUALTRICS_BASE_URL}xxxxxxxxxx"
+        test -z "${QUALTRICS_BASE_URL}" && echo "QUALTRICS_BASE_URL is not set" && exit 1
         quarto render  index.qmd --output-dir _html
 
     - name: Upload Artifact
