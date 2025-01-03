@@ -8,6 +8,7 @@ on:
   schedule:
     # hourly run
     - cron: '3 * * * *'
+  workflow_dispatch:
 
 # This job installs dependencies, builds the book, and pushes it to `gh-pages`
 jobs:
