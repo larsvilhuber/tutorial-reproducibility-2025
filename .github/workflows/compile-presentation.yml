@@ -1,4 +1,4 @@
-name: deploy-langing-page
+name: deploy-landing-page
 
 # Only run this when the master branch changes
 on:
