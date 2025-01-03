@@ -28,13 +28,14 @@ message(Sys.getenv("QUALTRICS_BASE_URL"))
 QUALTRICS_FULL_URL <- "https://cornell.yul1.qualtrics.com/jfe/form"
 QUALTRICS_DAY1 <- "SV_bBqbJ9cSSJdOBw2"
 
+# Public Qualtrics URL for day 2
+
+QUALTRICS_DAY2 <- "SV_2rVcVFnI6aoDUW2"
+
 # Time when this was posted (discard anything before that)
 
 QUALTRICS_DAY1_STIME <- "2025-01-03 00:00:00"
-
-# Public Qualtrics URL for day 2
-
-QUALTRICS_DAY2 <- "SHORTLY"
+QUALTRICS_DAY2_STIME <- "2025-01-03 00:00:00"
 
 if (!dir.exists(here::here("data"))) {
   dir.create(here::here("data"))
@@ -46,6 +47,13 @@ if (!dir.exists(here::here("data"))) {
 ## Follow along
 
 [lars.vilhuber.com/p/assa2025/](https://lars.vilhuber.com/p/assa2025/)
+
+## Day 1
+
+One of the following (or a linear combination):
+
+- [Setting yourself up for reproducibility](https://larsvilhuber.github.io/day1-tutorial/)
+- [How to correctly document a replication package](https://larsvilhuber.github.io/readme-presentation/)
 
 ## Survey 1
 
@@ -88,19 +96,6 @@ data.table |> kable()
 
 ```
 
-## Day 1
-
-One of the following (or a linear combination):
-
-- [Setting yourself up for reproducibility](https://larsvilhuber.github.io/day1-tutorial/)
-- [How to correctly document a replication package](https://larsvilhuber.github.io/readme-presentation/)
-
-## Survey 2
-
-To identify what we should be speaking about on Day 2, please fill out this other survey:
-
-<`r file.path(QUALTRICS_FULL_URL,QUALTRICS_DAY2)`>
-
 
 ## Day 2
 
@@ -108,6 +103,46 @@ One of the following (or a linear combination):
 
 - [Reproducibility when some data are confidential](https://labordynamicsinstitute.github.io/reproducibility-confidential/) 
 - [Advanced self-checking of reproducibility](https://larsvilhuber.github.io/self-checking-reproducibility/presentation/)
+
+
+## Survey 2
+
+To identify what we should be speaking about on Day 2, please fill out this other survey:
+
+<`r file.path(QUALTRICS_FULL_URL,QUALTRICS_DAY2)`>
+
+### Results
+
+```{r downloaddata2,include=FALSE}
+# download data to local location
+
+data2.raw <- fetch_survey(surveyID = QUALTRICS_DAY2, verbose = TRUE) 
+data2 <- data2.raw |>
+        #filter(Status != "Survey Preview") |>
+        filter(Consent == "I agree that my data will be used in the manner described.") |>
+        filter(StartDate > QUALTRICS_DAY2_STIME) |>
+  # renaming variables
+  select(StartDate,EndDate,Status,Finished,RecordedDate,ResponseId,Consent,Preferred_topic,Degree,JEL_primary,
+         starts_with("JEL_secondary"),starts_with("Versioning_"))
+
+
+```
+
+```{r create_table2, results='asis', include=TRUE,echo=FALSE,message=FALSE}
+
+if ( nrow(data2) >0 ) {
+data2 |>
+  select(Preferred_topic) |>
+  group_by(Preferred_topic) |>
+  summarise(Frequency=n()) |>
+  ungroup() |>
+  mutate(Percent = round(Frequency/nrow(data)*100,2)) -> data2.table
+
+data2.table |> kable()
+} else {
+  cat("No data yet. Check back later.")
+}
+```
 
 
 
