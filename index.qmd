@@ -34,8 +34,8 @@ QUALTRICS_DAY2 <- "SV_2rVcVFnI6aoDUW2"
 
 # Time when this was posted (discard anything before that)
 
-QUALTRICS_DAY1_STIME <- "2025-01-03 00:00:00"
-QUALTRICS_DAY2_STIME <- "2025-01-03 00:00:00"
+QUALTRICS_DAY1_STIME <- "2025-01-02 23:59:00"
+QUALTRICS_DAY2_STIME <- "2025-01-02 23:59:00"
 
 if (!dir.exists(here::here("data"))) {
   dir.create(here::here("data"))
@@ -70,7 +70,7 @@ data.raw <- fetch_survey(surveyID = QUALTRICS_DAY1, verbose = TRUE)
 data <- data.raw |>
         filter(Status != "Survey Preview") |>
         filter(Consent == "I agree that my data will be used in the manner described.") |>
-        filter(StartDate > QUALTRICS_DAY1_STIME) |>
+        #filter(as.Date(StartDate) > as.Date(QUALTRICS_DAY1_STIME)) |>
   # renaming variables
   select(StartDate,EndDate,Status,Finished,RecordedDate,ResponseId,Consent,Degree,JEL_primary,
          starts_with("JEL_secondary"),starts_with("Desktop_"),starts_with("Advanced_usage_"),
@@ -120,7 +120,7 @@ data2.raw <- fetch_survey(surveyID = QUALTRICS_DAY2, verbose = TRUE)
 data2 <- data2.raw |>
         filter(Status != "Survey Preview") |>
         filter(Consent == "I agree that my data will be used in the manner described.") |>
-        filter(StartDate > QUALTRICS_DAY2_STIME) |>
+        #filter(StartDate > QUALTRICS_DAY2_STIME) |>
   # renaming variables
   select(StartDate,EndDate,Status,Finished,RecordedDate,ResponseId,Consent,Preferred_topic,Degree,JEL_primary,
          starts_with("JEL_secondary"),starts_with("Versioning_"))
