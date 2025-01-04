@@ -138,7 +138,7 @@ data2 |>
   group_by(Preferred_topic) |>
   summarise(Frequency=n()) |>
   ungroup() |>
-  mutate(Percent = round(Frequency/nrow(data)*100,2)) -> data2.table
+  mutate(Percent = round(Frequency/nrow(data2)*100,2)) -> data2.table
 
 data2.table |> kable()
 } else {
