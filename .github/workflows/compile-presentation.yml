@@ -9,6 +9,13 @@ on:
     # hourly run
     #- cron: '3 * * * *'
   workflow_dispatch:
+    variables:
+      release:
+        description: 'Release version'
+        default: ""
+      name:
+        description: 'Release name'
+        default: ""
 
 # This job installs dependencies, builds the book, and pushes it to `gh-pages`
 jobs:
@@ -76,3 +83,17 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4 
+  release:
+    needs: compile-quarto
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        # only run if the workflow variable `release` is set
+        if: ${{ github.event.inputs.release != '' }}
+        with:
+          tag_name: ${{ github.event.inputs.release }}
+          release_name: ${{ github.event.inputs.name }}
+          body: "Release of the presentation HTML version."
+          files: _html/*
