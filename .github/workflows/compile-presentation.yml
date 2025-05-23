@@ -9,7 +9,7 @@ on:
     # hourly run
     #- cron: '3 * * * *'
   workflow_dispatch:
-    variables:
+    inputs:
       release:
         description: 'Release version'
         default: ""
