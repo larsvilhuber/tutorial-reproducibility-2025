@@ -45,6 +45,9 @@ esac
 # else  
 #   echo "Found $space/$repo:$tag"
 # fi
+
+[[ -f .Renviron ]] && source .Renviron
+
 if [[ ! -z $QUALTRICS_API_KEY ]]; then export DOCKEREXTRA="$DOCKEREXTRA -e QUALTRICS_API_KEY=$QUALTRICS_API_KEY" ; fi
 if [[ ! -z $QUALTRICS_BASE_URL ]]; then export DOCKEREXTRA="$DOCKEREXTRA -e QUALTRICS_BASE_URL=$QUALTRICS_BASE_URL" ; fi
 # same for GITHUB_REPOSITORY
