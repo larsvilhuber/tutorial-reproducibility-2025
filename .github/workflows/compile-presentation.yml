@@ -87,6 +87,13 @@ jobs:
     needs: compile-quarto
     runs-on: ubuntu-latest
     steps:
+      - name: Get Github pages artifact
+        id: download-artifact
+        uses: actions/download-pages-artifact@v3.0.1
+        with:
+          name: github-pages
+      - name: Show files
+        run: ls -la 
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
