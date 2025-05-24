@@ -101,6 +101,6 @@ jobs:
         if: ${{ github.event.inputs.release != '' }}
         with:
           tag_name: ${{ github.event.inputs.release }}
-          release_name: ${{ github.event.inputs.name }}
+          name: ${{ github.event.inputs.name }}
           body: "Release of the presentation HTML version."
           files: _html/*
