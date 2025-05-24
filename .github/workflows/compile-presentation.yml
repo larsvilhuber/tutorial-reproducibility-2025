@@ -86,14 +86,18 @@ jobs:
   release:
     needs: compile-quarto
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Get Github pages artifact
         id: download-artifact
         uses: actions/download-artifact@v4
         with:
           name: github-pages
-      - name: Show files
-        run: ls -la 
+      - name: Show files and unzip
+        run: |
+          tar -xvf artifact.tar
+          ls -la 
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
