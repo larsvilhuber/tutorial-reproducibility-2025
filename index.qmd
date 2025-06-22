@@ -68,9 +68,9 @@ plot(code)
 
 ```
 
-## Who am I
+## Intro
 
-[Lars Vilhuber](slides/index.html)
+[Intro](slides/index.html)
 
 
 ## Day 1
