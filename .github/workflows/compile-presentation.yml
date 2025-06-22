@@ -58,6 +58,7 @@ jobs:
         echo "xxxxxxxxxx${QUALTRICS_BASE_URL}xxxxxxxxxx"
         test -z "${QUALTRICS_BASE_URL}" && echo "QUALTRICS_BASE_URL is not set" && exit 1
         quarto render  index.qmd --output-dir _html
+        quarto render slides/index.qmd --output-dir _html
 
     - name: Upload Artifact
       uses: actions/upload-pages-artifact@v3.0.1    

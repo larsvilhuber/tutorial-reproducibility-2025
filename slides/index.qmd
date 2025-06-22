@@ -1,0 +1,36 @@
+---
+title: "Reproducibility Tutorial"
+author: 
+  - "Lars Vilhuber"
+date: June 22 2025
+format: 
+  revealjs:
+    scrollable: true
+    margin: 0
+    code-overflow: wrap
+    reference-location: document
+    widescreen: true
+    center: true
+    transition: slide
+    theme: [night, style.css]
+    self_contained: false
+    logo: logo.png
+    footer: ""
+    reveal_options:
+        slideNumber: true
+        previewLinks: false
+        chalkboard:
+          theme: chalkboard
+          toggleNotesButton: true
+    reveal_plugins: ["chalkboard"]
+
+---
+
+
+
+```{r, child=c(here::here("slides",'00-whoami.md'))}
+```
+
+
+```{r, child=c(here::here("slides",'02-reproducibility-extra.md'))}
+```

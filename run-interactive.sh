@@ -54,4 +54,4 @@ if [[ ! -z $QUALTRICS_BASE_URL ]]; then export DOCKEREXTRA="$DOCKEREXTRA -e QUAL
 if [[ ! -z $GITHUB_REPOSITORY ]]; then export DOCKEREXTRA="$DOCKEREXTRA -e GITHUB_REPOSITORY=$GITHUB_REPOSITORY" ; fi
 
 
-docker run $DOCKEREXTRA -e DISABLE_AUTH=true -v "$WORKSPACE":/home/rstudio --rm -p 8787:8787 $space/$repo:$tag
+docker run $DOCKEREXTRA -e DISABLE_AUTH=true -v "$WORKSPACE":/home/rstudio/workspace --rm -p 8787:8787 $space/$repo:$tag

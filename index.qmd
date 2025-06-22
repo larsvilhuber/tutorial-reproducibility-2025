@@ -47,8 +47,8 @@ QUALTRICS_DAY2 <- "SV_cZqZCgBj6e3SCSq"
 
 # Time when this was posted (discard anything before that)
 
-QUALTRICS_DAY1_STIME <- ymd_hms("2025-05-22 23:59:00")
-QUALTRICS_DAY2_STIME <- ymd_hms("2025-05-22 23:59:00")
+QUALTRICS_DAY1_STIME <- ymd_hms("2025-06-21 23:59:00")
+QUALTRICS_DAY2_STIME <- ymd_hms("2025-06-21 23:59:00")
 QUALTRICS_DAY2_ETIME <- ymd_hms("2025-06-24 23:59:00")
 
 if (!dir.exists(here::here("data"))) {
@@ -68,6 +68,10 @@ plot(code)
 
 ```
 
+## Who am I
+
+[Lars Vilhuber](slides/index.html)
+
 
 ## Day 1
 
@@ -83,6 +87,8 @@ Please fill out this survey on background and skills, to provide us with informa
 <`r file.path(QUALTRICS_FULL_URL,QUALTRICS_DAY1)`>
 
 ### Results
+
+*Last updated: `r format(Sys.time(), "%d %B %Y, %H:%M")`*
 
 ```{r downloaddata,include=FALSE}
 # download data to local location
@@ -125,9 +131,7 @@ One of the following (or a linear combination):
 
 - [Reproducibility when some data are confidential](https://labordynamicsinstitute.github.io/reproducibility-confidential/) 
 - [Advanced self-checking of reproducibility](https://larsvilhuber.github.io/self-checking-reproducibility/presentation/)
-- Preserving raw survey data
-  - <https://labordynamicsinstitute.github.io/replication-tutorial-2019/#/18>
-  - <https://labordynamicsinstitute.github.io/tutorial-data-sharing-archiving-2021/#/2> (possibly challenging)
+- Preserving raw survey data early in research lifecycle (ethically!)
 - [Reproducibility for LLM and AI](https://larsvilhuber.github.io/reproducibility-for-llm/presentation/)
 
 ## Survey 2
@@ -137,6 +141,8 @@ To identify what we should be speaking about on Day 2, please fill out this othe
 <`r file.path(QUALTRICS_FULL_URL,QUALTRICS_DAY2)`>
 
 ### Results
+
+*Last updated: `r format(Sys.time(), "%d %B %Y, %H:%M")`*
 
 ```{r downloaddata2,include=FALSE}
 # download data to local location
