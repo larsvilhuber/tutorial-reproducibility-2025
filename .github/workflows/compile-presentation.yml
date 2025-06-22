@@ -6,8 +6,8 @@ on:
     branches:
     - main
   schedule:
-    # every 15 minute run
-    - cron: '10,25,40,55 * * * *'
+    # every 2 hours run
+    - cron: '3 */2 * * *'
   workflow_dispatch:
     inputs:
       release:
