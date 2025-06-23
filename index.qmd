@@ -48,8 +48,8 @@ QUALTRICS_DAY2 <- "SV_cZqZCgBj6e3SCSq"
 # Time when this was posted (discard anything before that)
 
 QUALTRICS_DAY1_STIME <- ymd_hms("2025-06-21 23:59:00")
-QUALTRICS_DAY2_STIME <- ymd_hms("2025-06-21 23:59:00")
-QUALTRICS_DAY2_ETIME <- ymd_hms("2025-06-24 23:59:00")
+QUALTRICS_DAY2_STIME <- ymd_hms("2025-06-23 21:59:00")
+QUALTRICS_DAY2_ETIME <- ymd_hms("2025-06-26 23:59:00")
 
 if (!dir.exists(here::here("data"))) {
   dir.create(here::here("data"))
