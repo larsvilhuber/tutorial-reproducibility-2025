@@ -5,9 +5,9 @@ on:
   push:
     branches:
     - main
-  schedule:
+  #schedule:
     # every 2 hours run
-    - cron: '3 */2 * * *'
+   # - cron: '3 */2 * * *'
   workflow_dispatch:
     inputs:
       release:
