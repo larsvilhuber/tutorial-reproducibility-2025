@@ -43,13 +43,13 @@ QUALTRICS_DAY1 <- "SV_bBqbJ9cSSJdOBw2"
 
 # Public Qualtrics URL for day 2
 
-QUALTRICS_DAY2 <- "SV_cZqZCgBj6e3SCSq"
+QUALTRICS_DAY2 <- "SV_cNkhKL69K2Ob7o2"
 
 # Time when this was posted (discard anything before that)
 
-QUALTRICS_DAY1_STIME <- ymd_hms("2025-06-21 23:59:00")
-QUALTRICS_DAY2_STIME <- ymd_hms("2025-06-23 21:59:00")
-QUALTRICS_DAY2_ETIME <- ymd_hms("2025-06-26 23:59:00")
+QUALTRICS_DAY1_STIME <- ymd_hms("2025-08-31 23:59:00")
+QUALTRICS_DAY2_STIME <- ymd_hms("2025-05-31 21:59:00")
+QUALTRICS_DAY2_ETIME <- ymd_hms("2025-09-30 23:59:00")
 
 if (!dir.exists(here::here("data"))) {
   dir.create(here::here("data"))
@@ -132,11 +132,10 @@ One of the following (or a linear combination):
 - [Reproducibility when some data are confidential](https://labordynamicsinstitute.github.io/reproducibility-confidential/) 
 - [Advanced self-checking of reproducibility](https://larsvilhuber.github.io/self-checking-reproducibility/presentation/)
 - Preserving raw survey data early in research lifecycle (ethically!)
-- [Reproducibility for LLM and AI](https://larsvilhuber.github.io/reproducibility-for-llm/presentation/)
 
-## Survey 2
+### Survey 2
 
-To identify what we should be speaking about on Day 2, please fill out this other survey:
+To identify what we should be speaking about on Day 2, please fill out [this other survey](`r file.path(QUALTRICS_FULL_URL,QUALTRICS_DAY2)`):
 
 <`r file.path(QUALTRICS_FULL_URL,QUALTRICS_DAY2)`>
 
@@ -174,6 +173,19 @@ data2.table |> kable()
   cat("No data yet. Check back later.")
 }
 ```
+
+
+
+
+## Day 3
+
+The last day serves to review the various materials, handle any questions not addressed (in detail) on the previous days, and discuss experiences and difficulties applying these principles in your work.
+
+Topics may include:
+
+- [Advanced self-checking of reproducibility](https://larsvilhuber.github.io/self-checking-reproducibility/presentation/) (the more technical parts)
+- Preserving raw survey data early in research lifecycle (ethically!)
+- [Reproducibility for LLM and AI](https://larsvilhuber.github.io/reproducibility-for-llm/presentation/)
 
 
 
