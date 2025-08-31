@@ -183,6 +183,13 @@
       ],
       "Hash": "3f038e5ac7f41d4ac41ce658c85e3042"
     },
+    "clisymbols": {
+      "Package": "clisymbols",
+      "Version": "1.2.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "96c01552bfd5661b9bbdefbc762f4bcd"
+    },
     "colorspace": {
       "Package": "colorspace",
       "Version": "2.1-0",
@@ -507,6 +514,31 @@
         "methods"
       ],
       "Hash": "e1b9c55281c5adc4dd113652d9e26768"
+    },
+    "kableExtra": {
+      "Package": "kableExtra",
+      "Version": "1.4.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "digest",
+        "grDevices",
+        "graphics",
+        "htmltools",
+        "knitr",
+        "magrittr",
+        "rmarkdown",
+        "rstudioapi",
+        "scales",
+        "stats",
+        "stringr",
+        "svglite",
+        "tools",
+        "viridisLite",
+        "xml2"
+      ],
+      "Hash": "532d16304274c23c8563f94b79351c86"
     },
     "knitr": {
       "Package": "knitr",
@@ -851,6 +883,13 @@
       ],
       "Hash": "4c8415e0ec1e29f3f4f6fc108bef0144"
     },
+    "rstudioapi": {
+      "Package": "rstudioapi",
+      "Version": "0.17.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "5f90cd73946d706cfe26024294236113"
+    },
     "sass": {
       "Package": "sass",
       "Version": "0.4.9",
@@ -930,12 +969,62 @@
       ],
       "Hash": "960e2ae9e09656611e0b8214ad543207"
     },
+    "svglite": {
+      "Package": "svglite",
+      "Version": "2.2.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "base64enc",
+        "cli",
+        "cpp11",
+        "lifecycle",
+        "rlang",
+        "systemfonts",
+        "textshaping"
+      ],
+      "Hash": "a8a754856a1b29a24cbe269b8e03989a"
+    },
     "sys": {
       "Package": "sys",
       "Version": "3.4.3",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "de342ebfebdbf40477d0758d05426646"
+    },
+    "systemfonts": {
+      "Package": "systemfonts",
+      "Version": "1.2.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "base64enc",
+        "cpp11",
+        "grid",
+        "jsonlite",
+        "lifecycle",
+        "tools",
+        "utils"
+      ],
+      "Hash": "fe31683d2c6fd9a5724bcdf8ed44ded9"
+    },
+    "textshaping": {
+      "Package": "textshaping",
+      "Version": "1.0.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "cpp11",
+        "lifecycle",
+        "stats",
+        "stringi",
+        "systemfonts",
+        "utils"
+      ],
+      "Hash": "75b5813527f4154cb467e4cf60911333"
     },
     "tibble": {
       "Package": "tibble",
@@ -955,6 +1044,20 @@
         "vctrs"
       ],
       "Hash": "a84e2cc86d07289b3b6f5069df7a004c"
+    },
+    "tidylog": {
+      "Package": "tidylog",
+      "Version": "1.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "clisymbols",
+        "dplyr",
+        "glue",
+        "rlang",
+        "tidyr"
+      ],
+      "Hash": "91b7d5e3d5c01c3877f243d47f4e8fec"
     },
     "tidyr": {
       "Package": "tidyr",
@@ -1110,6 +1213,19 @@
         "tools"
       ],
       "Hash": "460a5e0fe46a80ef87424ad216028014"
+    },
+    "xml2": {
+      "Package": "xml2",
+      "Version": "1.4.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "cli",
+        "methods",
+        "rlang"
+      ],
+      "Hash": "3dfd9ffbe221af775cb37f95e7e893ec"
     },
     "yaml": {
       "Package": "yaml",
