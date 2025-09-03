@@ -62,6 +62,13 @@ if (!dir.exists(here::here("data"))) {
 
 ::: {.panel-tabset}
 
+
+## Survey 1
+
+Please fill out this survey on background and skills, to provide us with information on who you are. It will help us improve the presentation, and make it more relevant for you.
+
+<`r file.path(QUALTRICS_FULL_URL,QUALTRICS_DAY1)`>
+
 ## Follow along
 
 ```{r qrcode}
@@ -84,13 +91,7 @@ One of the following (or a linear combination):
 - [Setting yourself up for reproducibility](https://larsvilhuber.github.io/day1-tutorial/)
 - [How to correctly document a replication package](https://larsvilhuber.github.io/readme-presentation/)
 
-### Survey 1
-
-Please fill out this survey on background and skills, to provide us with information on who you are. It will help us improve the presentation, and make it more relevant for you.
-
-<`r file.path(QUALTRICS_FULL_URL,QUALTRICS_DAY1)`>
-
-### Results of Survey 1
+### Results from Survey 1
 
 *Last updated: `r format(Sys.time(), "%d %B %Y, %H:%M")`*
 
