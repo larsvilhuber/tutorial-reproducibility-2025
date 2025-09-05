@@ -112,7 +112,7 @@ data <- data.raw |>
 
 ```
 
-```{r create_table, results='asis', include=TRUE,echo=FALSE,message=FALSE}
+```{r create_table1, results='asis', include=TRUE,echo=FALSE,message=FALSE}
 
 if ( nrow(data) >0 ) {
 
@@ -130,8 +130,13 @@ data |>
 data.table |>
   kable() |>
   footnote(general = "Percent is calculated as the proportion of completed responses.")
+}
+```
+
+```{r create_table2, results='asis', include=TRUE,echo=FALSE,message=FALSE}
 
 # Tables for use of operating system (`Desktop _`(n), 3 categories), command line (Advanced_usage_1), 
+if ( nrow(data) >0 ) {
 
 cat("\n**Operating System**\n\n")
 data |>
@@ -145,7 +150,7 @@ data |>
                     "Desktop _1" = "Windows",
                     "Desktop _2" = "Mac",
                     "Desktop _3" = "Linux")) |>
-  filter(Used == TRUE) |>
+  filter(!is.na(Used)) |>
   group_by(OS) |>
   # Frequency and percentages
   summarise(
@@ -153,10 +158,16 @@ data |>
   ) |>
   mutate(
     Percent = round(Frequency / sum(data$Finished == TRUE, na.rm = TRUE) * 100, 2)
-  ) |>
-  summarise(Frequency = n()) |>
+  )  |>
   kable() |>
   footnote(general = "Completed responses only. Multiple mentions possible.")
+}
+```
+
+
+```{r create_table3, results='asis', include=TRUE,echo=FALSE,message=FALSE}
+
+if ( nrow(data) >0 ) {
 
 cat("\n**Command Line Usage**\n\n")
 data |>
@@ -213,7 +224,7 @@ data2 <- data2.raw |>
 
 ```
 
-```{r create_table2, results='asis', include=TRUE,echo=FALSE,message=FALSE}
+```{r create_table22, results='asis', include=TRUE,echo=FALSE,message=FALSE}
 
 if ( nrow(data2) >0 ) {
 data2 |>
