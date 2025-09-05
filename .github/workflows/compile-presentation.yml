@@ -6,8 +6,8 @@ on:
     branches:
     - main
   schedule:
-    # every day
-    - cron: '3 12 * * *'
+    # every hour
+    - cron: '3 * * * *'
   workflow_dispatch:
     inputs:
       release:
