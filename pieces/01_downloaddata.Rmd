@@ -1,0 +1,17 @@
+
+```{r downloaddata,include=FALSE}
+# download data to local location
+
+data.raw <- fetch_survey(surveyID = QUALTRICS_DAY1, verbose = TRUE) 
+data <- data.raw |>
+        mutate(StartDate <- ymd_hms(StartDate)) |>
+        filter(Status != "Survey Preview") |>
+        filter(Consent == "I agree that my data will be used in the manner described.") |>
+        filter(StartDate > QUALTRICS_DAY1_STIME & EndDate < QUALTRICS_DAY2_ETIME) |>
+  # renaming variables
+  select(StartDate,EndDate,Status,Finished,RecordedDate,ResponseId,Consent,Degree,JEL_primary,
+         starts_with("JEL_secondary"),starts_with("Desktop _"),starts_with("Advanced_usage_"),
+         starts_with("Programming_"),starts_with("Versioning_")) 
+
+
+```

@@ -51,8 +51,8 @@ QUALTRICS_DAY2 <- "SV_cNkhKL69K2Ob7o2"
 
 # Time when this was posted (discard anything before that)
 
-QUALTRICS_DAY1_STIME <- ymd_hms("2025-08-31 23:59:00")
-QUALTRICS_DAY2_STIME <- ymd_hms("2025-08-31 21:59:00")
+QUALTRICS_DAY1_STIME <- ymd_hms("2025-01-01 23:59:00")
+QUALTRICS_DAY2_STIME <- ymd_hms("2025-01-01 21:59:00")
 QUALTRICS_DAY2_ETIME <- ymd_hms("2025-10-24 23:59:00")
 
 if (!dir.exists(here::here("data"))) {
@@ -92,102 +92,24 @@ One of the following (or a linear combination):
 - [How to correctly document a replication package](https://larsvilhuber.github.io/readme-presentation/)
 
 ### Results from Survey 1
-
 *Last updated: `r format(Sys.time(), "%d %B %Y, %H:%M")`*
 
-```{r downloaddata,include=FALSE}
-# download data to local location
-
-data.raw <- fetch_survey(surveyID = QUALTRICS_DAY1, verbose = TRUE) 
-data <- data.raw |>
-        mutate(StartDate <- ymd_hms(StartDate)) |>
-        filter(Status != "Survey Preview") |>
-        filter(Consent == "I agree that my data will be used in the manner described.") |>
-        filter(StartDate > QUALTRICS_DAY1_STIME & EndDate < QUALTRICS_DAY2_ETIME) |>
-  # renaming variables
-  select(StartDate,EndDate,Status,Finished,RecordedDate,ResponseId,Consent,Degree,JEL_primary,
-         starts_with("JEL_secondary"),starts_with("Desktop _"),starts_with("Advanced_usage_"),
-         starts_with("Programming_"),starts_with("Versioning_")) 
 
 
+```{r downloaddata, child=c(here::here('pieces','01_downloaddata.Rmd'))}
 ```
 
-```{r create_table1, results='asis', include=TRUE,echo=FALSE,message=FALSE}
-
-if ( nrow(data) >0 ) {
-
-cat("\n**Education**\n\n")
-data |>
-  select(Degree,Finished) |>
-  group_by(Degree) |>
-  summarise(
-    Frequency = n(),
-    `Frequency (Complete)` = sum(Finished == TRUE, na.rm = TRUE)
-  ) |>
-  ungroup() |>
-  mutate(Percent = round(`Frequency (Complete)`/nrow(data)*100,2)) -> data.table
-
-data.table |>
-  kable() |>
-  footnote(general = "Percent is calculated as the proportion of completed responses.")
-}
+```{r education, child=c(here::here('pieces','02_table_education.Rmd'))}
 ```
 
-```{r create_table2, results='asis', include=TRUE,echo=FALSE,message=FALSE}
-
-# Tables for use of operating system (`Desktop _`(n), 3 categories), command line (Advanced_usage_1), 
-if ( nrow(data) >0 ) {
-
-cat("\n**Operating System**\n\n")
-data |>
-  filter(Finished == TRUE) |>
-  select(starts_with("Desktop _")) |>
-  # _1 = Windows, _2 = Mac, _3 = Linux
-  # Each field is NA if not ticked.
-  pivot_longer(cols = starts_with("Desktop _"), names_to = "OS", values_to = "Used") |>
-  # remap  Desktop _1 = Windows, _2 = Mac, _3 = Linux
-  mutate(OS = recode(OS,
-                    "Desktop _1" = "Windows",
-                    "Desktop _2" = "Mac",
-                    "Desktop _3" = "Linux")) |>
-  filter(!is.na(Used)) |>
-  group_by(OS) |>
-  # Frequency and percentages
-  summarise(
-    Frequency = n()
-  ) |>
-  mutate(
-    Percent = round(Frequency / sum(data$Finished == TRUE, na.rm = TRUE) * 100, 2)
-  )  |>
-  kable() |>
-  footnote(general = "Completed responses only. Multiple mentions possible.")
-}
+```{r os, child=c(here::here('pieces','02_table_os.Rmd'))}
 ```
 
 
-```{r create_table3, results='asis', include=TRUE,echo=FALSE,message=FALSE}
+```{r lang, child=c(here::here('pieces','02_table_lang.Rmd'))}
+```
 
-if ( nrow(data) >0 ) {
-
-cat("\n**Command Line Usage**\n\n")
-data |>
-  filter(Finished == TRUE) |>
-  summarise(
-    `Command line used` = sum(`Advanced_usage_1` == TRUE, na.rm = TRUE),
-    `System with more than 6 CPUs` = sum(`Advanced_usage_4` == TRUE, na.rm = TRUE)
-  ) |>
-  pivot_longer(everything(), names_to = "Feature", values_to = "Frequency") |>
-  mutate(
-    Percent = round(Frequency / sum(data$Finished == TRUE, na.rm = TRUE) * 100, 2)
-  ) |>
-  kable() |>
-  footnote(general = "Completed responses only.")
-
-
-} else {
-  cat("No data yet. Check back later.")
-}
-
+```{r cmdline, child=c(here::here('pieces','02_table_cmdline.Rmd'))}
 ```
 
 

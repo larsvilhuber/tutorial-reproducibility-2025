@@ -1,0 +1,26 @@
+
+```{r create_table_cmdline, results='asis', include=TRUE,echo=FALSE,message=FALSE}
+
+if ( nrow(data) >0 ) {
+
+cat("\n**Command Line Usage**\n\n")
+data |>
+  filter(Finished == TRUE) |>
+  summarise(
+    `Command line used` = sum(`Advanced_usage_1` == TRUE, na.rm = TRUE),
+    `System with more than 6 CPUs` = sum(`Advanced_usage_4` == TRUE, na.rm = TRUE)
+  ) |>
+  pivot_longer(everything(), names_to = "Feature", values_to = "Frequency") |>
+  mutate(
+    Percent = round(Frequency / sum(data$Finished == TRUE, na.rm = TRUE) * 100, 2)
+  ) |>
+  kable() |>
+  footnote(general = "Completed responses only.")
+
+
+} else {
+  cat("No data yet. Check back later.")
+}
+
+```
+

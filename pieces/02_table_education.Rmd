@@ -1,0 +1,21 @@
+
+```{r create_table_education, results='asis', include=TRUE,echo=FALSE,message=FALSE}
+
+if ( nrow(data) >0 ) {
+
+cat("\n**Education**\n\n")
+data |>
+  select(Degree,Finished) |>
+  group_by(Degree) |>
+  summarise(
+    Frequency = n(),
+    `Frequency (Complete)` = sum(Finished == TRUE, na.rm = TRUE)
+  ) |>
+  ungroup() |>
+  mutate(Percent = round(`Frequency (Complete)`/nrow(data)*100,2)) -> data.table
+
+data.table |>
+  kable() |>
+  footnote(general = "Percent is calculated as the proportion of completed responses.")
+}
+```
