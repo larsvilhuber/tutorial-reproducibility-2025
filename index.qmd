@@ -17,6 +17,7 @@ library(qualtRics)
 library(lubridate)
 library(qrcode)
 library(kableExtra)
+library(stringr)
 library(tidylog)
 
 # qualtRics secrets are read from the environment:
