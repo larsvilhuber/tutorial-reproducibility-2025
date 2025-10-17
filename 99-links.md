@@ -5,7 +5,7 @@
 
 Some additional guidance can be found on the website of the Social Science Data Editors (URLs subject to change):
 
--   <https://social-science-data-editors.github.io/guidance/DCAS_Restricted_data.html#us-census-bureau-and-fsrdc>
+-   <https://social-science-data-editors.github.io/guidance/Samples/DCAS_Restricted_data.html#us-census-bureau-and-fsrdc>
 -   <https://social-science-data-editors.github.io/guidance/Requested_information_hosting.html#self-generated-repositories>
 
 ### Examples of replication packages
