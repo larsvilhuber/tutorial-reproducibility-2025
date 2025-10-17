@@ -1,0 +1,31 @@
+
+```{r create_table_os, results='asis', include=TRUE,echo=FALSE,message=FALSE}
+
+# Tables for use of operating system (`Desktop _`(n), 3 categories), command line (Advanced_usage_1), 
+if ( nrow(data) >0 ) {
+
+cat("\n**Operating System**\n\n")
+data |>
+  filter(Finished == TRUE) |>
+  select(starts_with("Desktop _")) |>
+  # _1 = Windows, _2 = Mac, _3 = Linux
+  # Each field is NA if not ticked.
+  pivot_longer(cols = starts_with("Desktop _"), names_to = "OS", values_to = "Used") |>
+  # remap  Desktop _1 = Windows, _2 = Mac, _3 = Linux
+  mutate(OS = recode(OS,
+                    "Desktop _1" = "Windows",
+                    "Desktop _2" = "Mac",
+                    "Desktop _3" = "Linux")) |>
+  filter(!is.na(Used)) |>
+  group_by(OS) |>
+  # Frequency and percentages
+  summarise(
+    Frequency = n()
+  ) |>
+  mutate(
+    Percent = round(Frequency / sum(data$Finished == TRUE, na.rm = TRUE) * 100, 2)
+  )  |>
+  kable() |>
+  footnote(general = "Completed responses only. Multiple mentions possible.")
+}
+```

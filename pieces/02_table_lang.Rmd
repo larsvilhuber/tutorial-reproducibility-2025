@@ -1,0 +1,35 @@
+
+```{r create_table_lang, results='asis', include=TRUE,echo=FALSE,message=FALSE}
+
+# Tables for use of programming languages (`Programming_`(n), 3 categories), command line (Advanced_usage_1), 
+if ( nrow(data) >0 ) {
+
+cat("\n**Intermediate or Advanced Programming Language Usage**\n\n")
+data |>
+  filter(Finished == TRUE) |>
+  select(starts_with("Programming_",)) |>
+  # _Matlab _Python _R _Stata _SAS
+  # Each field is NA if not ticked.
+  pivot_longer(cols = starts_with("Programming_"), names_to = "Programming Language", values_to = "Levels") |>
+  filter(!str_detect(`Programming Language`,fixed("detail"))) |>
+  mutate(`Programming Language` = str_remove(`Programming Language`,"Programming_")) |>
+  filter(!is.na(Levels)) |>
+  mutate(Used = case_when(
+    Levels == "None" ~ FALSE,
+    Levels == "Basic (used only a few times)" ~ FALSE,
+    TRUE ~ TRUE
+  )) |>
+  filter(Used) |>
+  group_by(`Programming Language`) |>
+  # Frequency and percentages
+  summarise(
+    Frequency = n()
+  ) |>
+  mutate(
+    Percent = round(Frequency / sum(data$Finished == TRUE, na.rm = TRUE) * 100, 2)
+  )  |>
+  kable() |>
+  footnote(general = "Completed responses only. Multiple mentions possible. ")
+}
+```
+
