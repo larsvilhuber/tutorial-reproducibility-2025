@@ -52,9 +52,9 @@ QUALTRICS_DAY2 <- "SV_cNkhKL69K2Ob7o2"
 
 # Time when this was posted (discard anything before that)
 
-QUALTRICS_DAY1_STIME <- ymd_hms("2025-09-01 23:59:00")
-QUALTRICS_DAY2_STIME <- ymd_hms("2025-09-01 21:59:00")
-QUALTRICS_DAY2_ETIME <- ymd_hms("2025-09-10 23:59:00")
+QUALTRICS_DAY1_STIME <- ymd_hms("2025-01-01 23:59:00")
+QUALTRICS_DAY2_STIME <- ymd_hms("2025-01-01 21:59:00")
+QUALTRICS_DAY2_ETIME <- ymd_hms("2025-12-01 23:59:00")
 
 if (!dir.exists(here::here("data"))) {
   dir.create(here::here("data"))
@@ -93,9 +93,10 @@ One of the following (or a linear combination):
 - [How to correctly document a replication package](https://larsvilhuber.github.io/readme-presentation/)
 
 ### Results from Survey 1
+
 *Last updated: `r format(Sys.time(), "%d %B %Y, %H:%M")`*
 
-
+> The results cover multiple workshops, and include all responses between `r format(QUALTRICS_DAY1_STIME, "%d %B %Y")` and `r (QUALTRICS_DAY2_ETIME, "%d %B %Y")`.
 
 ```{r downloaddata, child=c(here::here('pieces','01_downloaddata.Rmd'))}
 ```
@@ -131,6 +132,8 @@ To identify what we should be speaking about on Day 2, please fill out [this oth
 ### Results from Survey 2
 
 *Last updated: `r format(Sys.time(), "%d %B %Y, %H:%M")`*
+
+> The results cover multiple workshops, and include all responses between `r format(QUALTRICS_DAY2_STIME, "%d %B %Y")` and `r (QUALTRICS_DAY2_ETIME, "%d %B %Y")`.
 
 ```{r downloaddata2,include=FALSE}
 # download data to local location
