@@ -96,7 +96,7 @@ One of the following (or a linear combination):
 
 *Last updated: `r format(Sys.time(), "%d %B %Y, %H:%M")`*
 
-> The results cover multiple workshops, and include all responses between `r format(QUALTRICS_DAY1_STIME, "%d %B %Y")` and `r (QUALTRICS_DAY2_ETIME, "%d %B %Y")`.
+> The results cover multiple workshops, and include all responses between `r format(QUALTRICS_DAY1_STIME, "%d %B %Y")` and `r format(QUALTRICS_DAY2_ETIME, "%d %B %Y")`.
 
 ```{r downloaddata, child=c(here::here('pieces','01_downloaddata.Rmd'))}
 ```
@@ -133,7 +133,7 @@ To identify what we should be speaking about on Day 2, please fill out [this oth
 
 *Last updated: `r format(Sys.time(), "%d %B %Y, %H:%M")`*
 
-> The results cover multiple workshops, and include all responses between `r format(QUALTRICS_DAY2_STIME, "%d %B %Y")` and `r (QUALTRICS_DAY2_ETIME, "%d %B %Y")`.
+> The results cover multiple workshops, and include all responses between `r format(QUALTRICS_DAY2_STIME, "%d %B %Y")` and `r format(QUALTRICS_DAY2_ETIME, "%d %B %Y")`.
 
 ```{r downloaddata2,include=FALSE}
 # download data to local location
