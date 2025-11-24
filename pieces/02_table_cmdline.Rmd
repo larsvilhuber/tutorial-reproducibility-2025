@@ -1,30 +1,78 @@
 
 ```{r create_table_cmdline, results='asis', include=TRUE,echo=FALSE,message=FALSE}
 
+
 if ( nrow(data) >0 ) {
 
-cat("\n**Command Line Usage**\n\n")
-data |>
+cat("\n**Command Line Usage by Educational Category**\n\n")
+
+# Prepare data with education category
+cmd_filtered <- data |>
   filter(Finished == TRUE) |>
   mutate(
-    `Command line used often` = str_detect(`Advanced_usage_1`,fixed("Often")), 
-    `Command line used once`  = str_detect(`Advanced_usage_1`,fixed("Once" )),
-    `System with >6 CPUs: often` = str_detect(`Advanced_usage_4`,fixed("Often")), 
-    `System with >6 CPUs: once`  = str_detect(`Advanced_usage_4`,fixed("Once" ))
+    EduCat = ifelse(Degree == "Other", "Other", "Academic"),
+    `Command line used often` = str_detect(`Advanced_usage_1`,fixed("Often")),
+    `Command line used once`  = str_detect(`Advanced_usage_1`,fixed("Once")),
+    `System with >6 CPUs: often` = str_detect(`Advanced_usage_4`,fixed("Often")),
+    `System with >6 CPUs: once`  = str_detect(`Advanced_usage_4`,fixed("Once"))
   ) |>
-  summarise(
-    `Command line used often` = sum(`Command line used often` == TRUE, na.rm = TRUE),
-    `Command line used once`  = sum(`Command line used once` == TRUE, na.rm = TRUE),
-    `System with >6 CPUs: often` = sum(`System with >6 CPUs: often` == TRUE, na.rm = TRUE),
-    `System with >6 CPUs: once` = sum(`System with >6 CPUs: once` == TRUE, na.rm = TRUE)
-  ) |>
-  pivot_longer(everything(), names_to = "Feature", values_to = "Frequency") |>
-  mutate(
-    Percent = round(Frequency / sum(data$Finished == TRUE, na.rm = TRUE) * 100, 2)
-  ) |>
-  kable() |>
-  footnote(general = "Completed responses only.")
+  select(EduCat, `Command line used often`, `Command line used once`, `System with >6 CPUs: often`, `System with >6 CPUs: once`)
 
+# Pivot longer for features
+cmd_long <- cmd_filtered |>
+  pivot_longer(
+    cols = -EduCat,
+    names_to = "Feature",
+    values_to = "Used"
+  ) |>
+  filter(Used == TRUE)
+
+# Tabulate by group
+cmd_tab <- cmd_long |>
+  group_by(EduCat, Feature) |>
+  summarise(Frequency = n(), .groups = "drop")
+
+# Totals for each group
+cmd_totals <- cmd_long |>
+  group_by(EduCat) |>
+  summarise(Total = n(), .groups = "drop")
+
+overall_total <- nrow(cmd_filtered)
+
+# Merge totals for percentages
+cmd_tab <- cmd_tab |>
+  left_join(cmd_totals, by = "EduCat") |>
+  mutate(Percent = Frequency / Total * 100)
+
+# Pivot wider for Academic/Other columns
+cmd_wide <- cmd_tab |>
+  select(Feature, EduCat, Percent) |>
+  tidyr::pivot_wider(
+    names_from = EduCat,
+    values_from = Percent,
+    values_fill = 0
+  )
+
+# Overall percentages
+overall_tab <- cmd_long |>
+  group_by(Feature) |>
+  summarise(Frequency = n(), .groups = "drop") |>
+  mutate(Overall = Frequency / overall_total * 100) |>
+  select(Feature, Overall)
+
+# Merge overall into wide table
+final_tab <- cmd_wide |>
+  left_join(overall_tab, by = "Feature") |>
+  select(Feature, Academic, Other, Overall) |>
+  mutate(
+    Academic = sprintf("%.1f%%", Academic),
+    Other = sprintf("%.1f%%", Other),
+    Overall = sprintf("%.1f%%", Overall)
+  )
+
+final_tab |>
+  kable() |>
+  footnote(general = "Completed responses only. Cells show percent of feature mentions by group.")
 
 } else {
   cat("No data yet. Check back later.")

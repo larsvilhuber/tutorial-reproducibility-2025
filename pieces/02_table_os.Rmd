@@ -1,31 +1,79 @@
-
 ```{r create_table_os, results='asis', include=TRUE,echo=FALSE,message=FALSE}
 
-# Tables for use of operating system (`Desktop _`(n), 3 categories), command line (Advanced_usage_1), 
+# Tables for use of operating system by educational category ("Other" vs "Academic")
 if ( nrow(data) >0 ) {
 
-cat("\n**Operating System**\n\n")
-data |>
+cat("\n**Operating System by Educational Category**\n\n")
+os_filtered <- data |>
+  filter(Finished == TRUE) |>
+  mutate(
+    EduCat = ifelse(Degree == "Other", "Other", "Academic")
+  ) |>
+  select(EduCat, starts_with("Desktop _")) |>
+  pivot_longer(cols = starts_with("Desktop _"), names_to = "OS", values_to = "Used") |>
+  mutate(OS = recode(OS,
+                    "Desktop _1" = "Windows",
+                    "Desktop _2" = "Mac",
+                    "Desktop _3" = "Linux")) |>
+  filter(!is.na(Used)) 
+  
+os_tab <- os_filtered |>
+  group_by(EduCat, OS) |>
+  summarise(
+    Frequency = n(),
+    .groups = "drop"
+  )
+
+# Calculate totals for each group
+os_totals <- os_filtered |>
+  group_by(EduCat) |>
+  summarise(Total = n(), .groups = "drop")
+
+overall_total <- nrow(os_filtered)
+
+# Merge totals back to compute percentages
+os_tab <- os_tab |>
+  left_join(os_totals, by = "EduCat") |>
+  mutate(Percent = Frequency / Total * 100)
+
+# Pivot wider for Academic/Other columns
+os_wide <- os_tab |>
+  select(OS, EduCat, Percent) |>
+  tidyr::pivot_wider(
+    names_from = EduCat,
+    values_from = Percent,
+    values_fill = 0
+  )
+
+# Calculate overall percentages
+overall_tab <- data |>
   filter(Finished == TRUE) |>
   select(starts_with("Desktop _")) |>
-  # _1 = Windows, _2 = Mac, _3 = Linux
-  # Each field is NA if not ticked.
   pivot_longer(cols = starts_with("Desktop _"), names_to = "OS", values_to = "Used") |>
-  # remap  Desktop _1 = Windows, _2 = Mac, _3 = Linux
   mutate(OS = recode(OS,
                     "Desktop _1" = "Windows",
                     "Desktop _2" = "Mac",
                     "Desktop _3" = "Linux")) |>
   filter(!is.na(Used)) |>
   group_by(OS) |>
-  # Frequency and percentages
-  summarise(
-    Frequency = n()
-  ) |>
+  summarise(Frequency = n(), .groups = "drop")
+
+overall_tab <- overall_tab |>
+  mutate(Overall = Frequency / overall_total * 100) |>
+  select(OS, Overall)
+
+# Merge overall into wide table
+final_tab <- os_wide |>
+  left_join(overall_tab, by = "OS") |>
+  select(OS, Academic, Other, Overall) |>
   mutate(
-    Percent = round(Frequency / sum(data$Finished == TRUE, na.rm = TRUE) * 100, 2)
-  )  |>
+    Academic = sprintf("%.1f%%", Academic),
+    Other = sprintf("%.1f%%", Other),
+    Overall = sprintf("%.1f%%", Overall)
+  )
+
+final_tab |>
   kable() |>
-  footnote(general = "Completed responses only. Multiple mentions possible.")
+  footnote(general = "Completed responses only. Multiple mentions possible. Cells show percent of OS mentions by group. ")
 }
 ```
