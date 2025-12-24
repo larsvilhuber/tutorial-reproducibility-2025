@@ -27,22 +27,20 @@ cmd_long <- cmd_filtered |>
   ) |>
   filter(Used == TRUE)
 
-# Tabulate by group
-cmd_tab <- cmd_long |>
-  group_by(EduCat, Feature) |>
-  summarise(Frequency = n(), .groups = "drop")
-
 # Totals for each group
-cmd_totals <- cmd_long |>
+cmd_totals <- cmd_filtered |>
   group_by(EduCat) |>
   summarise(Total = n(), .groups = "drop")
 
 overall_total <- nrow(cmd_filtered)
 
-# Merge totals for percentages
-cmd_tab <- cmd_tab |>
+# Tabulate by group
+cmd_tab <- cmd_long |>
+  group_by(EduCat, Feature) |>
+  summarise(Frequency = n(), .groups = "drop") |>
   left_join(cmd_totals, by = "EduCat") |>
   mutate(Percent = Frequency / Total * 100)
+
 
 # Pivot wider for Academic/Other columns
 cmd_wide <- cmd_tab |>

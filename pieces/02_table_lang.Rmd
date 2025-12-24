@@ -5,6 +5,11 @@
 if ( nrow(data) >0 ) {
 
 cat("\n**Intermediate or Advanced Programming Language Usage**\n\n")
+  
+# compute overall totals
+  
+overall_total <- sum(data$Finished == TRUE, na.rm = TRUE)
+
 data |>
   filter(Finished == TRUE) |>
   select(starts_with("Programming_",)) |>
@@ -26,7 +31,7 @@ data |>
     Frequency = n()
   ) |>
   mutate(
-    Percent = round(Frequency / sum(data$Finished == TRUE, na.rm = TRUE) * 100, 2)
+    Percent = round(Frequency / overall_total * 100, 2)
   )  |>
   kable() |>
   footnote(general = "Completed responses only. Multiple mentions possible. ")

@@ -9,7 +9,9 @@ os_filtered <- data |>
   mutate(
     EduCat = ifelse(Degree == "Other", "Other", "Academic")
   ) |>
-  select(EduCat, starts_with("Desktop _")) |>
+  select(EduCat, starts_with("Desktop _"))
+
+os_longer<- os_filtered |>
   pivot_longer(cols = starts_with("Desktop _"), names_to = "OS", values_to = "Used") |>
   mutate(OS = recode(OS,
                     "Desktop _1" = "Windows",
@@ -17,13 +19,6 @@ os_filtered <- data |>
                     "Desktop _3" = "Linux")) |>
   filter(!is.na(Used)) 
   
-os_tab <- os_filtered |>
-  group_by(EduCat, OS) |>
-  summarise(
-    Frequency = n(),
-    .groups = "drop"
-  )
-
 # Calculate totals for each group
 os_totals <- os_filtered |>
   group_by(EduCat) |>
@@ -31,8 +26,12 @@ os_totals <- os_filtered |>
 
 overall_total <- nrow(os_filtered)
 
-# Merge totals back to compute percentages
-os_tab <- os_tab |>
+os_tab <- os_longer |>
+  group_by(EduCat, OS) |>
+  summarise(
+    Frequency = n(),
+    .groups = "drop"
+  ) |>
   left_join(os_totals, by = "EduCat") |>
   mutate(Percent = Frequency / Total * 100)
 
@@ -46,19 +45,9 @@ os_wide <- os_tab |>
   )
 
 # Calculate overall percentages
-overall_tab <- data |>
-  filter(Finished == TRUE) |>
-  select(starts_with("Desktop _")) |>
-  pivot_longer(cols = starts_with("Desktop _"), names_to = "OS", values_to = "Used") |>
-  mutate(OS = recode(OS,
-                    "Desktop _1" = "Windows",
-                    "Desktop _2" = "Mac",
-                    "Desktop _3" = "Linux")) |>
-  filter(!is.na(Used)) |>
+overall_tab <- os_longer |>
   group_by(OS) |>
-  summarise(Frequency = n(), .groups = "drop")
-
-overall_tab <- overall_tab |>
+  summarise(Frequency = n(), .groups = "drop")|>
   mutate(Overall = Frequency / overall_total * 100) |>
   select(OS, Overall)
 
